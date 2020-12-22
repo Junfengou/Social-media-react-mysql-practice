@@ -1,0 +1,22 @@
+:root {
+	--orange: #f66a0a;
+	--green: #28a745;
+	--blue: #0070f3;
+	--lightBlue: #79b8ff;
+	--lightestBlue: #c8e1ff;
+	--offWhite: #f6f8fa;
+	--grey: #6a737d;
+	--grey2: #586069;
+	--black: #1a1e22;
+	--darkGrey: #24292e;
+	--white: #ffffff;
+	--purple: #d075e0;
+	--pink: #e367a9;
+}
+
+* {
+	margin: 0;
+	padding: 0;
+	font-family: "Trebuchet MS", "Lucida Sans Unicode", "Lucida Grande",
+		"Lucida Sans", Arial, sans-serif;
+}

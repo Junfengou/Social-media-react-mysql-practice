@@ -1,0 +1,84 @@
+const express = require("express");
+const router = express.Router();
+const db = require("../config/db");
+
+// ?  : stand for whatever is input from the server from the client side
+
+// in order to access the front end to grab information, create a variable like this  [ const username = req.body.username;]
+
+router.post("/", (req, res) => {
+	const title = req.body.title;
+	const description = req.body.description;
+	const image = req.body.image;
+	const author = req.body.author;
+
+	db.query(
+		"INSERT INTO Uploads (title, description, image,  author) VALUES (?, ?, ?, ? );",
+		[title, description, image, author],
+		(err, results) => {
+			console.log(err);
+			res.send(results);
+		}
+	);
+});
+
+router.get("/", (req, res) => {
+	db.query("SELECT * FROM Uploads", (err, results) => {
+		if (err) {
+			console.log(err);
+		}
+		res.send(results);
+	});
+});
+
+router.post("/like", (req, res) => {
+	const userLiking = req.body.userLiking;
+	const postId = req.body.postId;
+	db.query(
+		"INSERT INTO likes (userLiking, postId) VALUES (?, ?)",
+		[userLiking, postId],
+		(err, results) => {
+			if (err) {
+				console.log(err);
+			}
+			db.query("UPDATE Uploads SET likes = likes + 1 WHERE id = ? ", postId);
+			{
+				/**
+				 * Cannot set headers after they are sent to the client 
+			will be thrown if res.send is called twice under a route  */
+			}
+			return res.send(results);
+		}
+	);
+});
+
+router.get("/byUser/:username", (req, res) => {
+	const username = req.params.username;
+	db.query(
+		"SELECT * FROM Uploads WHERE author = ?",
+		username,
+		(err, results) => {
+			if (err) {
+				console.log(err);
+			}
+			res.send(results);
+		}
+	);
+});
+
+module.exports = router;
+
+{
+	/** 
+router.get("/register", (req, res) => {
+	db.query(
+		"INSERT INTO Users (username, password) VALUES ('Jun' , 'game')",
+		(err, results) => {
+			console.log(err);
+			res.send(results);
+		}
+	);
+});
+
+*/
+}
